@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
 import Card from './components/cards/cards';
+import CardDeck from './CardDeck'
 
 export default class App extends Component {
+  state = {
+    cards: []
+  };
+
+  constructor(props) {
+    super(props);
+    const deck = new CardDeck();
+    this.state.cards = deck.getCards(5);
+  }
+
+  newDack = () => {
+    // Будет менять карты в state
+  }
+
   render() {
     return (
       <div className="container">
