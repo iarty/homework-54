@@ -11,12 +11,16 @@
 ********************************************************************/
 .container {
     max-width: 1170px;
-    margin: 0 auto;
+    margin: 10% auto 0 auto;
     padding: 0 15px;
 }
 
 .card-inner {
     text-align: center;
+}
+
+.combination {
+    margin-top: 20px;
 }
 
 .playingCards .card {
@@ -49,10 +53,12 @@
 
 /* selected and hover state */
 .playingCards a.card:hover,
-.playingCards a.card:active,
-.playingCards a.card:focus,
 .playingCards label.card:hover,
 .playingCards strong .card {
+    bottom: 1em;
+}
+
+.pickCard {
     bottom: 1em;
 }
 
