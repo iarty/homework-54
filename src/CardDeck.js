@@ -24,7 +24,7 @@ export default class CardDeck {
     ranks.forEach((i) => {
       this.priorRank = priorRank[i]
       suits.forEach(j => {
-        this.deck.push({ id: nanoid(), rank: i, suit: j, priorRank: this.priorRank, totalRank: this.priorRank + this.priorSuit, pick: false })
+        this.deck.push({ id: nanoid(), rank: i, suit: j, priorRank: this.priorRank, pick: false })
       })
     })
   }
@@ -40,10 +40,6 @@ export default class CardDeck {
       cards.push(...this.getCard())
     }
     return cards;
-  }
-
-  changeCard = () => {
-
   }
 
   quantityCard = () => {

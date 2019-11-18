@@ -17,7 +17,6 @@ const suits = {
 
 export default (props) => {
   let className = `card rank-${props.rank.toLowerCase()} ${suits[props.suit]}`;
-  // props.pick ? className += 'pickCard' : className += ''
   if (props.pick) {
     className = `card rank-${props.rank.toLowerCase()} ${suits[props.suit]} pickCard`
   } else {
