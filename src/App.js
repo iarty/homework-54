@@ -70,8 +70,8 @@ export default class App extends Component {
   }
 
   newGame = () => {
-    this.setState({deck:new CardDeck(),showCard:false,numCol:null})
-    this.start()
+    const deck = new CardDeck();
+    this.setState({deck, showCard:false,numCol:null, combination: null, quantityCard:null });
   }
 
   render() {

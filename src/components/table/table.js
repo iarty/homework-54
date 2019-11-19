@@ -9,6 +9,7 @@ const colorTd = (props, target) => {
 }
 
 const colorTr = (props, target) => {
+  if(props){
   if (~props.indexOf('Pair ') && props.length === 8 && target === 8) {
     return 'rgb(93, 93, 218)'
   }
@@ -35,7 +36,7 @@ const colorTr = (props, target) => {
   }
   if (~props.indexOf('Royal Flush') && target === 1) {
     return 'rgb(93, 93, 218)'
-  }
+  }}
 }
 
 export default (props) => {
