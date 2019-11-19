@@ -3,6 +3,7 @@ import CardsMarkup from './components/cardsMarkup/cardsMarkup'
 import CardDeck from './CardDeck';
 import PokerHand from './pokerHand';
 import Table from './components/table/table.js';
+import Winfunc from './components/winfunc/winfunc'
 
 export default class App extends Component {
   state = {
@@ -15,6 +16,7 @@ export default class App extends Component {
     showCard: false,
     numCol: null,
     disableChangeCard: false,
+    takeBtn:false,
   };
 
   constructor() {
@@ -36,8 +38,7 @@ export default class App extends Component {
       return !arr.includes(el);
     })
     cards.unshift(...newDeck)
-    const comb = [...cards];
-    this.setState({ cards, cardsChangeList: [], quantityCard: this.state.deck.quantityCard(), combination: new PokerHand(comb).getOutcome(), disableChangeCard: !this.state.disableChangeCard })
+    this.setState({ cards, cardsChangeList: [], quantityCard: this.state.deck.quantityCard(), combination: new PokerHand([...cards]).getOutcome(), disableChangeCard: true });
   }
 
   pickCard = (id) => {
@@ -69,9 +70,14 @@ export default class App extends Component {
     this.setState({ numCol, showCard: true });
   }
 
+  takeMoney = () => {
+    const result = new Winfunc(this.state.numCol, this.state.combination).result();
+    this.setState({ money: this.state.money + result ,takeBtn:true})
+  }
+
   newGame = () => {
     const deck = new CardDeck();
-    this.setState({deck, showCard:false,numCol:null, combination: null, quantityCard:null });
+    this.setState({ deck, showCard: false, numCol: null, combination: null, quantityCard: null,takeBtn:false,disableChangeCard:false });
   }
 
   render() {
@@ -90,7 +96,7 @@ export default class App extends Component {
               </tr>
             </thead>
             <tbody>
-              <Table numCol={this.state.numCol} combination={this.state.combination} className='table-wrap' />
+              <Table numCol={this.state.numCol} combination={this.state.combination}  className='table-wrap' />
             </tbody>
           </table>
           <br />
@@ -104,7 +110,7 @@ export default class App extends Component {
             <button onClick={this.pickCol}>5</button>
           </div>
           {this.state.showCard ?
-            <CardsMarkup cards={this.state.cards} combination={this.state.combination} quantity={this.state.quantityCard} disableChangeCard={this.state.disableChangeCard} pickCard={this.pickCard} changeCard={this.changeCard} nextCard={this.nextDeck} newGame={this.newGame} />
+            <CardsMarkup takeBtn={this.state.takeBtn} cards={this.state.cards} combination={this.state.combination} quantity={this.state.quantityCard} disableChangeCard={this.state.disableChangeCard} pickCard={this.pickCard} changeCard={this.changeCard} nextCard={this.nextDeck} newGame={this.newGame} takeMoney={this.takeMoney} />
             :
             null
           }

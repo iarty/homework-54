@@ -22,17 +22,16 @@ export default (props) => {
           <span>{props.combination}</span>
         </div>
         <div className="button-inner">
-          {!props.disableChangeCard && props.quantity >= 47?
+          {!props.disableChangeCard && !props.takeBtn ?
             <button key="bp2" onClick={props.changeCard}>change cards</button>
             :
             <button key="bp2" disabled>change cards</button>
           }
           <br />
-          {props.quantity === 47 ?
-          <button key="bp3">Take money</button>
-          :
-          <button key="bp3" disabled>Take money</button>}
-          
+          {!props.takeBtn ?
+            <button key="bp3" onClick={props.takeMoney}>Take money</button>
+            :
+            <button key="bp3" disabled>Take money</button>}
         </div>
       </div>
     </Fragment>
