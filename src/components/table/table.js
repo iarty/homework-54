@@ -10,7 +10,7 @@ const colorTd = (props, target) => {
 
 const colorTr = (props, target) => {
   if(props){
-  if (~props.indexOf('Pair') && props.length < 9 && target === 8) {
+  if (~props.indexOf('Pair') && props.length <= 9 && target === 8) {
     return 'rgb(93, 93, 218)'
   }
   if (~props.indexOf('Two Pair') && target === 7) {

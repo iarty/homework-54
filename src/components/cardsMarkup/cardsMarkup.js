@@ -22,7 +22,7 @@ export default (props) => {
           <span>{props.combination}</span>
         </div>
         <div className="button-inner">
-          {!props.disableChangeCard && !props.takeBtn ?
+          {!props.disableChangeCard && !props.takeBtn && props.cardPicked ?
             <button key="bp2" onClick={props.changeCard}>change cards</button>
             :
             <button key="bp2" disabled>change cards</button>

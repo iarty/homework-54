@@ -17,6 +17,7 @@ export default class App extends Component {
     numCol: null,
     disableChangeCard: false,
     takeBtn:false,
+    cardPicked:false
   };
 
   constructor() {
@@ -55,6 +56,7 @@ export default class App extends Component {
         }
       }
     })
+    this.setState({cardPicked:true})
   }
 
   start = () => {
@@ -110,7 +112,7 @@ export default class App extends Component {
             <button onClick={this.pickCol}>5</button>
           </div>
           {this.state.showCard ?
-            <CardsMarkup takeBtn={this.state.takeBtn} cards={this.state.cards} combination={this.state.combination} quantity={this.state.quantityCard} disableChangeCard={this.state.disableChangeCard} pickCard={this.pickCard} changeCard={this.changeCard} nextCard={this.nextDeck} newGame={this.newGame} takeMoney={this.takeMoney} />
+            <CardsMarkup cardPicked={this.state.cardPicked} takeBtn={this.state.takeBtn} cards={this.state.cards} combination={this.state.combination} quantity={this.state.quantityCard} disableChangeCard={this.state.disableChangeCard} pickCard={this.pickCard} changeCard={this.changeCard} nextCard={this.nextDeck} newGame={this.newGame} takeMoney={this.takeMoney} />
             :
             null
           }
