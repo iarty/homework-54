@@ -1,107 +1,43 @@
 import React, { Component } from 'react';
-import Card from './components/cards/cards';
+import CardsMarkup from './components/cardsMarkup/cardsMarkup'
 import CardDeck from './CardDeck';
 import PokerHand from './pokerHand';
+import Table from './components/table/table.js';
 
 export default class App extends Component {
   state = {
+    deck: [],
     cards: [],
     combination: '',
     quantityCard: '',
-    cardsChangeList: []
+    cardsChangeList: [],
+    money: 100,
+    showCard: false,
+    numCol: null,
+    disableChangeCard: false,
   };
-  deck = new CardDeck();
 
   constructor() {
     super();
-    const newDeck = this.deck.getCards(5)
-    // const newDeck = [
-      //Royal flush
-      // { id: "1a", rank: "A", suit: "H", priorRank: 12 },
-      // { id: "2s", rank: "Q", suit: "H", priorRank: 10 },
-      // { id: "3d", rank: "K", suit: "H", priorRank: 11 },
-      // { id: "4f", rank: "10", suit: "H", priorRank: 8 },
-      // { id: "5c", rank: "J", suit: "H", priorRank: 9 }
-
-      //straight flush
-      // { id: "1a", rank: "9", suit: "H", priorRank: 7 },
-      // { id: "2s", rank: "7", suit: "H", priorRank: 5 },
-      // { id: "3d", rank: "8", suit: "H", priorRank: 6 },
-      // { id: "4f", rank: "5", suit: "H", priorRank: 3 },
-      // { id: "5c", rank: "6", suit: "H", priorRank: 4 }
-
-      //four of a kind
-      // { id: "1a", rank: "3", suit: "D", priorRank: 1 },
-      // { id: "2s", rank: "3", suit: "H", priorRank: 1 },
-      // { id: "3d", rank: "2", suit: "S", priorRank: 0 },
-      // { id: "4f", rank: "3", suit: "H", priorRank: 1 },
-      // { id: "5c", rank: "3", suit: "C", priorRank: 1 }
-
-      //full house
-      // { id: "1a", rank: "10", suit: "D", priorRank: 8 },
-      // { id: "2s", rank: "10", suit: "H", priorRank: 8 },
-      // { id: "3d", rank: "10", suit: "S", priorRank: 8 },
-      // { id: "4f", rank: "8", suit: "H", priorRank: 6 },
-      // { id: "5c", rank: "8", suit: "C", priorRank: 6 }
-
-      //flush
-      // { id: "1a", rank: "K", suit: "C", priorRank: 11 },
-      // { id: "2s", rank: "J", suit: "C", priorRank: 9 },
-      // { id: "3d", rank: "8", suit: "C", priorRank: 6 },
-      // { id: "4f", rank: "4", suit: "C", priorRank: 2 },
-      // { id: "5c", rank: "3", suit: "C", priorRank: 1 }
-
-      //straight
-      // { id: "1a", rank: "5", suit: "H", priorRank: 3 },
-      // { id: "2s", rank: "4", suit: "D", priorRank: 2 },
-      // { id: "3d", rank: "3", suit: "S", priorRank: 1 },
-      // { id: "4f", rank: "2", suit: "H", priorRank: 0 },
-      // { id: "5c", rank: "A", suit: "C", priorRank: 12 }
-
-      //three of a kind
-      // { id: "1a", rank: "5", suit: "H", priorRank: 3 },
-      // { id: "2s", rank: "5", suit: "D", priorRank: 3 },
-      // { id: "3d", rank: "5", suit: "S", priorRank: 3 },
-      // { id: "4f", rank: "2", suit: "H", priorRank: 0 },
-      // { id: "5c", rank: "A", suit: "C", priorRank: 12 }
-
-      //two pairs
-      // { id: "1a", rank: "5", suit: "H", priorRank: 3 },
-      // { id: "2s", rank: "5", suit: "D", priorRank: 3 },
-      // { id: "3d", rank: "4", suit: "S", priorRank: 2 },
-      // { id: "4f", rank: "4", suit: "H", priorRank: 2 },
-      // { id: "5c", rank: "A", suit: "C", priorRank: 12 }
-
-      //one pair
-      // { id: "1a", rank: "5", suit: "H", priorRank: 3 },
-      // { id: "2s", rank: "5", suit: "D", priorRank: 3 },
-      // { id: "3d", rank: "Q", suit: "S", priorRank: 10 },
-      // { id: "4f", rank: "8", suit: "H", priorRank: 6 },
-      // { id: "5c", rank: "A", suit: "C", priorRank: 12 }
-    // ]
-    const comb = [...newDeck];
-    // const combin = new PokerHand(newDeck).getOutcome();
-    this.state.cards = newDeck;
-    this.state.combination = new PokerHand(comb).getOutcome();
-    this.state.quantityCard = this.deck.quantityCard();
+    this.state.deck = new CardDeck();
+    this.newDeck = null;
   }
 
-  newDeck = () => {
-    const cards = this.deck.getCards(5);
-    const comb = [...cards];
-    this.setState({ cards, combination:new PokerHand(comb).getOutcome(), quantityCard: this.deck.quantityCard() });
+  nextDeck = () => {
+    const cards = this.state.deck.getCards(5);
+    this.setState({ cards, combination: new PokerHand([...cards]).getOutcome(), quantityCard: this.state.deck.quantityCard() });
   }
 
   changeCard = () => {
     const arr = this.state.cardsChangeList;
-    const newDeck = this.deck.getCards(arr.length);
+    const newDeck = this.state.deck.getCards(arr.length);
     let cards = this.state.cards;
     cards = cards.filter((el) => {
       return !arr.includes(el);
     })
     cards.unshift(...newDeck)
     const comb = [...cards];
-    this.setState({ cards, cardsChangeList: [], quantityCard: this.deck.quantityCard(), combination: new PokerHand(comb).getOutcome() })
+    this.setState({ cards, cardsChangeList: [], quantityCard: this.state.deck.quantityCard(), combination: new PokerHand(comb).getOutcome(), disableChangeCard: !this.state.disableChangeCard })
   }
 
   pickCard = (id) => {
@@ -110,35 +46,68 @@ export default class App extends Component {
       if (el.id === id) {
         if (!el.pick) {
           el.pick = !el.pick;
-          this.setState(prevState => { return prevState.cardsChangeList.push(el) })
+          this.setState(prevState => prevState.cardsChangeList.push(el))
         } else {
           const index = this.state.cardsChangeList.findIndex(p => p.id === id);
           el.pick = !el.pick;
-          this.setState(prevState => { return prevState.cardsChangeList.splice(index, 1) })
+          this.setState(prevState => prevState.cardsChangeList.splice(index, 1))
         }
       }
     })
+  }
+
+  start = () => {
+    this.newDeck = this.state.deck.getCards(5);
+    this.setState({ cards: this.newDeck, combination: new PokerHand([...this.newDeck]).getOutcome(), quantityCard: this.state.deck.quantityCard() });
+  }
+
+  pickCol = (e) => {
+    const numCol = e.target.textContent;
+    if (this.state.showCard === false) {
+      this.start()
+    }
+    this.setState({ numCol, showCard: true });
+  }
+
+  newGame = () => {
+    this.setState({deck:new CardDeck(),showCard:false,numCol:null})
+    this.start()
   }
 
   render() {
     return (
       <div className="container">
         <div className="playingCards faceImages card-inner">
-          {this.state.cards.map((item) => {
-            return <Card key={item.id} pick={item.pick} suit={item.suit} rank={item.rank} pickCard={() => this.pickCard(item.id)} />
-          })}
+          <table>
+            <thead>
+              <tr>
+                <th>COINS</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <Table numCol={this.state.numCol} combination={this.state.combination} className='table-wrap' />
+            </tbody>
+          </table>
           <br />
-          {this.state.quantityCard ?
-            [<button key="bp1" onClick={this.newDeck}>next card</button>,
-            <button key="bp2" onClick={this.changeCard}>change cards</button>]
-            :
-            <button>next card</button>
-          }
-          <div className='combination'>
-            <span>{this.state.combination}</span>
+          <div>
+            <span>Your money: {this.state.money}$</span>
             <br />
-            <span>Cards quantity: {this.state.quantityCard}</span>
+            <button onClick={this.pickCol}>1</button>
+            <button onClick={this.pickCol}>2</button>
+            <button onClick={this.pickCol}>3</button>
+            <button onClick={this.pickCol}>4</button>
+            <button onClick={this.pickCol}>5</button>
           </div>
+          {this.state.showCard ?
+            <CardsMarkup cards={this.state.cards} combination={this.state.combination} quantity={this.state.quantityCard} disableChangeCard={this.state.disableChangeCard} pickCard={this.pickCard} changeCard={this.changeCard} nextCard={this.nextDeck} newGame={this.newGame} />
+            :
+            null
+          }
         </div>
       </div>
     )

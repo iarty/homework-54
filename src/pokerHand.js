@@ -13,13 +13,13 @@ export default class PokerHand {
 
   countSuites = (suitArray) => {
     let suitCount = {};
-    suitArray.forEach(el => { suitCount[el.suit] = (suitCount[el.suit] || 0) + 1 });
+    suitArray.forEach(el => suitCount[el.suit] = (suitCount[el.suit] || 0) + 1);
     return suitCount;
   }
 
   countRanks = (rankArray) => {
     let rankCount = {};
-    rankArray.forEach(el => { rankCount[el.rank] = (rankCount[el.rank] || 0) + 1; });
+    rankArray.forEach(el => rankCount[el.rank] = (rankCount[el.rank] || 0) + 1);
     return rankCount;
   }
 
@@ -47,7 +47,7 @@ export default class PokerHand {
 
   isPairs = () => {
     const rankSuit = this.countRanks(this.sortArr);
-    return Object.keys(rankSuit).filter((key) => rankSuit[key] === 2).length
+    return Object.keys(rankSuit).filter(key => rankSuit[key] === 2).length
   }
 
   changeSuits = (arr) => {
@@ -65,29 +65,27 @@ export default class PokerHand {
 
   getOutcome = () => {
     const rankSuit = this.countRanks(this.sortArr);
-    const arr = [...this.sortArr];
-    arr.sort((a, b) => b.priorRank - a.priorRank);
-    // this.changeSuits(arr)
+    const arr = this.sortArr.sort((a, b) => b.priorRank - a.priorRank)
     if (this.isFlush() === true && this.isStraight() === "ROYALSTRAIGHT") {
-      return `Royal Flush`
+      return 'Royal Flush'
     } else if (this.isFlush() === true && this.isStraight() === "STRAIGHT") {
-      return (`Straight Flush`)
+      return 'Straight Flush'
     } else if (Object.keys(rankSuit).find(key => rankSuit[key] === 4)) {
-      return (`Four of a Kind (${arr[2].rank})`)
+      return `Four of a Kind (${arr[2].rank})`
     } else if (Object.keys(rankSuit).find(key => rankSuit[key] === 3) && this.isPairs() === 1) {
-      return (`Full House (${arr.map(el => el.rank + el.suit).join(' ')})`)
+      return 'Full House'
     } else if (this.isFlush() === true) {
-      return (`Flush (${arr.map(el => el.rank + el.suit).join(' ')})`)
+      return 'Flush'
     } else if (this.isStraight() === "STRAIGHT") {
-      return (`Straight (${arr.map(el => el.rank + el.suit).join(' ')})`)
+      return ('Straight')
     } else if (Object.keys(rankSuit).find(key => rankSuit[key] === 3)) {
-      return (`Three of a Kind (${arr.map(el => el.rank + el.suit).join(' ')})`)
+      return `Three of a Kind (${arr[2].rank})`
     } else if (this.isPairs() === 2) {
-      return (`Two Pair (${arr[2].rank})`)
+      return `Two Pair (${Object.keys(rankSuit).filter((key) => rankSuit[key] === 2)})`
     } else if (this.isPairs() === 1) {
-      return (`Pair (${arr.map(el => el.rank + el.suit).join(' ')})`)
+      return `Pair (${Object.keys(rankSuit).filter((key) => rankSuit[key] === 2)})`
     } else {
-      return (`High Card (${arr[0].rank + arr[0].suit})`)
+      return `High Card (${arr[0].rank})`
     }
   }
 }
